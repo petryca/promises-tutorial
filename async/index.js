@@ -10,7 +10,7 @@ function loadScript(src) {
   });
 }
 
-// async / await is a self-invoking function
+// async / await in a self-invoking function
 (async () => {
   try {
     await loadScript('./one.js');
