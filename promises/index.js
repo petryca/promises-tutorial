@@ -1,76 +1,66 @@
+// Function that returns a promise
 function loadScript(src) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     let script = document.createElement('script');
     script.src = src;
+    document.head.append(script);
 
     script.onload = () => resolve(script);
     script.onerror = () => reject(new Error(`Script ${src} did not load`));
-
-    document.head.append(script);
   });
 }
 
-
-/*
-let promise = loadScript('./onex.js');
-
-
-// The first argument of .then is a function that runs when the promise is resolved,
-// and receives the result.
+// The first argument of .then is a function that runs 
+// when the promise is resolved, and receives the result.
 // The second argument of .then is a function that runs when
 // the promise is rejected, and receives the error.
 
+let promise = loadScript('./onex.js');
+
 promise.then(
-  function(script) { console.log(one(), script.src); },
-  function(error) { console.log(error.message); }
-)
-*/
-
-// using catch
-/*
-loadScript('./onex.js').then(
-  function(script) { console.log(one(), script.src); },
-).catch(
-  function(error) { console.log(error.message); }
+  script => console.log(one(), script.src),
+  error  => console.log(error.message)
 );
-*/
 
-// CHAINING 1
-/*
+// USING CATCH
+
+loadScript('./onex.js').then(
+  script => console.log(one(), script.src),
+).catch(
+  error  => console.log(error.message)
+);
+
+// CHAINING
+
+// empty pattern
+loadScript().then().then().catch()
+
+
+// pattern 1
+
 loadScript('./one.js').then(
-  function(script) {
+  script => {
     console.log(one(), script.src);
     return loadScript('./two.js');
   }
 ).then(
-  function(script) {
+  script => {
     console.log(two(), script.src);
     return loadScript('./three.js');
   }
 ).then(
-  function(script) {
+  script => {
     console.log(three(), script.src);
   }
 ).catch(
-  function(error) { console.log(error.message); }
+  error => { console.log(error.message); }
 );
-*/
 
 
+// pattern 2
 
-// CHAINING 2
-loadScript('./one.js').then(
-  function(script) {
-    return loadScript('./two.js');
-  }
-).then(
-  function(script) {
-    return loadScript('./three.js');
-  }
-).then(
-  function(script) {
-    console.log(one(), two(), three());
-  }
-).catch(
-  function(error) { console.log(error.message); }
-);
+loadScript('./one.js')
+.then(() => loadScript('./two.js'))
+.then(() => loadScript('./three.js'))
+.then(() => console.log(one(), two(), three()))
+.catch( error => console.log(error.message));

@@ -1,15 +1,16 @@
+// Function that returns a promise
 function loadScript(src) {
-  return new Promise(function(resolve, reject) {
+  return new Promise((resolve, reject) => {
     let script = document.createElement('script');
     script.src = src;
+    document.head.append(script);
 
     script.onload = () => resolve(script);
     script.onerror = () => reject(new Error(`Script ${src} did not load`));
-
-    document.head.append(script);
   });
 }
 
+// async / await is a self-invoking function
 (async () => {
   try {
     await loadScript('./one.js');
@@ -21,10 +22,3 @@ function loadScript(src) {
   }
 })();
 
-/*
-loader().then(
-  function() { console.log(one(), two(), three()); },
-).catch(
-  function(error) { console.log(error.message); }
-);
-*/

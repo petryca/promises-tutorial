@@ -1,84 +1,75 @@
 
-// NO CALLBACK
+// NO CALLBACK – THIS WILL FAIL
 
-/*
 function loadScript(src) {
   let script = document.createElement('script');
   script.src = src;
   document.head.append(script);
-  console.log(one(), script.src);
 }
-loadScript('./one.js');
-*/
 
-// CALLBACK
+loadScript('./one.js');
+console.log(one(), script.src);
+
+// WITH CALLBACK
 
 function loadScript(source, callback) {
-  let scr = document.createElement('script');
-  scr.src = source;
+  let script = document.createElement('script');
+  script.src = source;
+  document.head.append(script);
 
-  // scr.onload = () => callback(scr);
-
-  scr.onload = function () { callback(scr) };
-
-  document.head.append(scr);
+  script.onload = () => callback(source);
 }
 
-
-loadScript('./one.js', function(script) {
+loadScript('./one.js', function (script) {
     console.log(one(), script.src);
 });
 
-/*
-loadScript('./one.js', function(script) {
+loadScript('./one.js', script => {
   console.log(one(), script.src);
-  loadScript('./two.js', function(script) {
+  loadScript('./two.js', script => {
       console.log(two(), script.src);
-      loadScript('./three.js', function(script) {
+      loadScript('./three.js', script => {
           console.log(three(), script.src);
       });
   });
 });
-*/
+
 
 // WITH ERROR HANDLING
-/*
+
 function loadScript(src, callback) {
   let script = document.createElement('script');
   script.src = src;
-
-  script.onload = () => callback(null, script); // null for error
-  script.onerror = () => callback(new Error(`Script ${src} did not load`));
-
   document.head.append(script);
-}
-*/
 
-/*
-loadScript('./one.js', function(error, script) { // <--- add error here
-    if(error) {
+  script.onload = () => callback(null, script); // use null for error
+  script.onerror = () => callback(new Error(`Script ${src} did not load`));
+}
+
+
+loadScript('./one.js', (error, script) => {
+    if (error) {
       console.log(error.message);
     } else {
       console.log(one(), script.src);
     }
 });
-*/
 
 
 // PYRAMID OF DOOM
-/*
-loadScript('./one.js', function(error, script) { // <--- add error here
-    if(error) {
+
+loadScript('./one.js', function (error, script) {
+    if (error) {
       console.log(error.message);
     } else {
       console.log(one(), script.src);
-      loadScript('./two.js', function(error, script) { // <--- add error here
-          if(error) {
+      loadScript('./two.js', function (error, script) {
+          if (error) {
             console.log(error.message);
           } else {
             console.log(two(), script.src);
-            loadScript('./three.js', function(error, script) { // <--- add error here
-                if(error) {
+            loadScript('./three.js', function (error, script) {
+                if (error) {
                   console.log(error.message);
                 } else {
                   console.log(three(), script.src);
@@ -88,4 +79,3 @@ loadScript('./one.js', function(error, script) { // <--- add error here
       });
     }
 });
-*/
