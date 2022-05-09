@@ -15,7 +15,7 @@ function loadScript(src) {
 // The second argument of .then is a function that runs when
 // the promise is rejected, and receives the error.
 
-let promise = loadScript('./onex.js');
+let promise = loadScript('./one.js');
 
 promise.then(
   script => console.log(one(), script.src),
@@ -53,7 +53,9 @@ loadScript('./one.js').then(
     console.log(three(), script.src);
   }
 ).catch(
-  error => { console.log(error.message); }
+  error => { 
+    console.log(error.message); 
+  }
 );
 
 

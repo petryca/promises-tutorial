@@ -8,11 +8,11 @@ let doSomething = function (x) {
     return x;
 }
 
+// ARROW FUNCTIONS
+
 let doSomething = (x) => {
     return x;
 }
-
-// ARROW FUNCTIONS
 
 let doSomething = x => x; // returns x
 

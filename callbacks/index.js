@@ -8,7 +8,7 @@ function loadScript(src) {
 }
 
 loadScript('./one.js');
-console.log(one(), script.src);
+console.log(one());
 
 // WITH CALLBACK
 
